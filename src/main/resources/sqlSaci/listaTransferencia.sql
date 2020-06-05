@@ -20,4 +20,5 @@ FROM sqldados.nf            AS N
 	       ON N.storeno = N2.storeno AND N.pdvno = N2.pdvno AND N.xano = N2.xano
 WHERE N.issuedate >= 20200601
   AND N.paymno = 69
+  AND (N.storeno = :storeno OR :storeno = 0)
 ORDER BY N.issuedate DESC

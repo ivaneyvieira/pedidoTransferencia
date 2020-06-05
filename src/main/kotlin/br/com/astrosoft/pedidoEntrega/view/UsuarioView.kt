@@ -117,6 +117,11 @@ class UserCrudFormFactory(private val viewModel: UsuarioViewModel): AbstractCrud
             isReadOnly = true
             binder.bind(this, UserSaci::name.name)
           }
+        if(operation in listOf(ADD, READ, DELETE, UPDATE))
+          integerField ("Loja") {
+            isReadOnly = false
+            binder.bind(this, UserSaci::storeno.name)
+          }
         if(operation in listOf(READ, DELETE, UPDATE))
           textField("Impressora") {
             isReadOnly = true

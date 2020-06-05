@@ -1,8 +1,6 @@
 package br.com.astrosoft.pedidoEntrega.view
 
-import br.com.astrosoft.AppConfig
 import br.com.astrosoft.framework.view.ViewLayout
-import br.com.astrosoft.framework.view.addColumnDouble
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
 import br.com.astrosoft.framework.view.addColumnString
@@ -33,7 +31,6 @@ import com.vaadin.flow.component.grid.ColumnTextAlign.END
 import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
-import com.vaadin.flow.component.icon.VaadinIcon.CLOSE
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextField
@@ -48,12 +45,17 @@ import java.time.LocalDate
 @PageTitle("Pedidos")
 @HtmlImport("frontend://styles/shared-styles.html")
 class PedidoEntregaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedidoTransferenciaView {
-  private lateinit var gridPedidos: Grid<PedidoTransferencia>
+  private lateinit var gridPedido: Grid<PedidoTransferencia>
   private lateinit var edtNumeroPedido: TextField
   private lateinit var edtDataPedido: DatePicker
-
+//
+private lateinit var gridTransferencia: Grid<PedidoTransferencia>
+  private lateinit var edtNumeroTransferencia: TextField
+  private lateinit var edtDataTransferencia: DatePicker
+  //
   override val viewModel: PedidoTransferenciaViewModel = PedidoTransferenciaViewModel(this)
-  private val dataProviderPedidoImprimir = ListDataProvider<PedidoTransferencia>(mutableListOf())
+  private val dataProviderPedido = ListDataProvider<PedidoTransferencia>(mutableListOf())
+  private val dataProviderTransferencia = ListDataProvider<PedidoTransferencia>(mutableListOf())
   
   override fun isAccept(user: UserSaci) = true
   
@@ -65,6 +67,15 @@ class PedidoEntregaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedidoTran
       }.apply {
         val button = Button(TAB_PEDIDO) {
           viewModel.updateGridPedido()
+        }
+        button.addThemeVariants(ButtonVariant.LUMO_SMALL)
+        this.addComponentAsFirst(button)
+      }
+      tab {
+        painelTransferencia()
+      }.apply {
+        val button = Button(TAB_NOTA_FISCAL) {
+          viewModel.updateGridTransferencia()
         }
         button.addThemeVariants(ButtonVariant.LUMO_SMALL)
         this.addComponentAsFirst(button)
@@ -100,7 +111,7 @@ class PedidoEntregaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedidoTran
           }
         }
       }
-      gridPedidos = this.grid(dataProvider = dataProviderPedidoImprimir) {
+      gridPedido = this.grid(dataProvider = dataProviderPedido) {
         isExpand = true
         isMultiSort = true
         addThemeVariants(LUMO_COMPACT)
@@ -135,6 +146,63 @@ class PedidoEntregaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedidoTran
     }
   }
   
+  fun HasComponents.painelTransferencia(): VerticalLayout {
+    return verticalLayout {
+      this.setSizeFull()
+      isMargin = false
+      isPadding = false
+      horizontalLayout {
+        setWidthFull()
+        edtNumeroTransferencia = textField("Numero Nota") {
+          this.valueChangeMode = TIMEOUT
+          this.isAutofocus = true
+          addValueChangeListener {
+            viewModel.updateGridTransferencia()
+          }
+        }
+        edtDataTransferencia = datePicker("Data") {
+          localePtBr()
+          isClearButtonVisible = true
+          addValueChangeListener {
+            viewModel.updateGridTransferencia()
+          }
+        }
+      }
+      gridTransferencia = this.grid(dataProvider = dataProviderTransferencia) {
+        isExpand = true
+        isMultiSort = true
+        addThemeVariants(LUMO_COMPACT)
+        setSelectionMode(SelectionMode.MULTI)
+        
+        addColumnSeq("Num")
+        addColumnInt(PedidoTransferencia::lojaOrigem) {
+          this.setHeader("Lj Origem")
+        }
+        addColumnInt(PedidoTransferencia::lojaDestino) {
+          this.setHeader("Lj Origem")
+        }
+        addColumnString(PedidoTransferencia::nfTransferencia) {
+          this.setHeader("Pedido")
+        }
+        
+        addColumnLocalDate(PedidoTransferencia::dataNota) {
+          this.setHeader("Data")
+        }
+        addColumnTime(PedidoTransferencia::horaNota) {
+          this.setHeader("Hora")
+        }
+        
+        addColumnString(PedidoTransferencia::obs) {
+          this.setHeader("Obs")
+        }
+        
+        this.shiftSelect()
+      }
+      
+      viewModel.updateGridTransferencia()
+    }
+  }
+  
   private fun @VaadinDsl Grid<PedidoTransferencia>.addColumnSeq(label: String) {
     addColumn {
       val lista = list(this)
@@ -147,13 +215,22 @@ class PedidoEntregaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedidoTran
   }
   
   override fun updateGridPedido(itens: List<PedidoTransferencia>) {
-    gridPedidos.deselectAll()
-    dataProviderPedidoImprimir.updateItens(itens)
+    gridPedido.deselectAll()
+    dataProviderPedido.updateItens(itens)
+  }
+  
+  override fun updateGridTransferencia(itens: List<PedidoTransferencia>) {
+    gridTransferencia.deselectAll()
+    dataProviderTransferencia.updateItens(itens)
   }
   
   
   override fun itensSelecionadoPedido(): List<PedidoTransferencia> {
-    return gridPedidos.selectedItems.toList()
+    return gridPedido.selectedItems.toList()
+  }
+  
+  override fun itensSelecionadoTransferencia(): List<PedidoTransferencia> {
+    return gridTransferencia.selectedItems.toList()
   }
   
 
@@ -161,12 +238,16 @@ class PedidoEntregaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedidoTran
     get() = edtNumeroPedido.value?.toIntOrNull() ?: 0
   override val dataPedido: LocalDate?
     get() = edtDataPedido.value
+  
+  override val numeroTransferencia: Int
+    get() = edtNumeroTransferencia.value?.toIntOrNull() ?: 0
+  override val dataTransferencia: LocalDate?
+    get() = edtDataTransferencia.value
 
   
   companion object {
     const val TAB_PEDIDO: String = "Pedido"
     const val TAB_NOTA_FISCAL: String = "Nota Fiscal"
-    const val TAB_EM_TRANSITO: String = "Em Transito"
   }
 }
 
