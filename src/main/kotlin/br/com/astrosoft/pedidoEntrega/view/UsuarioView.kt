@@ -1,12 +1,13 @@
 package br.com.astrosoft.pedidoEntrega.view
 
+import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.pedidoEntrega.model.beans.UserSaci
 import br.com.astrosoft.pedidoEntrega.viewmodel.IUsuarioView
 import br.com.astrosoft.pedidoEntrega.viewmodel.UsuarioViewModel
-import br.com.astrosoft.framework.view.ViewLayout
 import com.github.mvysny.karibudsl.v10.alignSelf
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.formLayout
+import com.github.mvysny.karibudsl.v10.getColumnBy
 import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.hr
 import com.github.mvysny.karibudsl.v10.integerField
@@ -57,12 +58,15 @@ class UsuarioView: ViewLayout<UsuarioViewModel>(), IUsuarioView {
   }
   
   private fun gridCrud(): GridCrud<UserSaci> {
-    val crud: GridCrud<UserSaci> = GridCrud<UserSaci>(UserSaci::class.java)
+    val crud: GridCrud<UserSaci> = GridCrud(UserSaci::class.java)
     crud.grid
-      .setColumns(UserSaci::no.name, UserSaci::login.name, UserSaci::name.name, UserSaci::impressora.name)
-    
+      .setColumns(UserSaci::no.name, UserSaci::login.name, UserSaci::storeno.name, UserSaci::name.name,
+                  UserSaci::impressora.name)
+    crud.grid.getColumnBy(UserSaci::storeno)
+      .setHeader("Loja")
+  
     crud.grid.addThemeVariants(LUMO_COMPACT)
-    
+  
     crud.crudFormFactory = UserCrudFormFactory(viewModel)
     crud.setSizeFull()
     return crud
@@ -84,8 +88,6 @@ class UsuarioView: ViewLayout<UsuarioViewModel>(), IUsuarioView {
     column.setHeader(caption)
     column.textAlign = ColumnTextAlign.CENTER
   }
-  
-  
 }
 
 class UserCrudFormFactory(private val viewModel: UsuarioViewModel): AbstractCrudFormFactory<UserSaci>() {

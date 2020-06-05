@@ -1,6 +1,5 @@
 package br.com.astrosoft.pedidoEntrega.model.beans
 
-import br.com.astrosoft.framework.spring.SecurityUtils
 import br.com.astrosoft.pedidoEntrega.model.saci
 import kotlin.math.pow
 
@@ -21,12 +20,12 @@ class UserSaci {
   
   fun initVars(): UserSaci {
     val bits = bitAcesso
-    ativo = (bits and 2.pow(7)) != 0 || admin
+    ativo = (bits and 2.pow(8)) != 0 || admin
     return this
   }
   
   fun bitAcesso(): Int {
-    val ativoSum = if(ativo) 2.pow(7) else 0
+    val ativoSum = if(ativo) 2.pow(8) else 0
     val bits = saci.findUser(login)?.bitAcesso ?: 0
     return ativoSum or bits
   }
