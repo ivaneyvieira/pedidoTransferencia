@@ -29,16 +29,23 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     script(sql) {
       addOptionalParameter("login", user.login)
       addOptionalParameter("bitAcesso", user.bitAcesso())
+      addOptionalParameter("storeno", user.storeno)
     }
   }
   
-  fun listaPedido(): List<PedidoTransferencia> {
+  fun listaPedido(storeno : Int): List<PedidoTransferencia> {
     val sql = "/sqlSaci/listaPedido.sql"
     return query(sql, PedidoTransferencia::class){
-      addParameter("storeno", 0)
+      addParameter("storeno", storeno)
     }
   }
   
+  fun listaTransferencia(storeno : Int): List<PedidoTransferencia> {
+    val sql = "/sqlSaci/listaTransferencia.sql"
+    return query(sql, PedidoTransferencia::class){
+      addParameter("storeno", storeno)
+    }
+  }
   
   companion object {
     private val db = DB("saci")

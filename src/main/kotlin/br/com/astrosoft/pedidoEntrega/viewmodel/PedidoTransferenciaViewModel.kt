@@ -25,10 +25,10 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
   }
   
   fun updateGridPedido() {
-    view.updateGridPedido(listPedidoTransferencia())
+    view.updateGridPedido(listPedido())
   }
   
-  private fun listPedidoTransferencia(): List<PedidoTransferencia> {
+  private fun listPedido(): List<PedidoTransferencia> {
     val numPedido = view.numeroPedido
     val data = view.dataPedido
     return PedidoTransferencia.listaPedido()
@@ -37,14 +37,33 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
         (pedido.dataPedido == data || data == null)
       }
   }
+  
+  fun updateGridTransferencia() {
+    view.updateGridTransferencia(listTransferencia())
+  }
+  
+  private fun listTransferencia(): List<PedidoTransferencia> {
+    val numPedido = view.numeroTransferencia
+    val data = view.dataTransferencia
+    return PedidoTransferencia.listaTransferencia()
+      .filter {pedido ->
+        (pedido.numPedido == numPedido || numPedido == 0) &&
+        (pedido.dataPedido == data || data == null)
+      }
+  }
+
 }
 
 interface IPedidoTransferenciaView: IView {
   fun updateGridPedido(itens: List<PedidoTransferencia>)
-  
   fun itensSelecionadoPedido(): List<PedidoTransferencia>
-  
+  //
+  fun updateGridTransferencia(itens: List<PedidoTransferencia>)
+  fun itensSelecionadoTransferencia(): List<PedidoTransferencia>
   //
   val numeroPedido: Int
   val dataPedido: LocalDate?
+  //
+  val numeroTransferencia: Int
+  val dataTransferencia: LocalDate?
 }
