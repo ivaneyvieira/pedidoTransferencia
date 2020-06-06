@@ -32,5 +32,6 @@ FROM sqldados.eord           AS P
 	       ON U.no = P.userno
 WHERE P.paymno = 69
   AND P.date >= 20200601
+  AND P.status <> 5
   AND (P.storeno = :storeno OR :storeno = 0)
 GROUP BY P.ordno, P.storeno
