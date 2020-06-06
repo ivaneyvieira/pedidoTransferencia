@@ -13,7 +13,7 @@ SELECT P.storeno                                                                
        TRIM(CONCAT(TRIM(MID(IFNULL(remarks__480, ' '), 1, 15)), ' ',
 		   TRIM(RPAD(MID(IFNULL(remarks__480, ' '), 41, 56), 15, ' ')), ' ',
 		   TRIM(RPAD(MID(IFNULL(remarks__480, ' '), 81, 99), 17, ' ')), ' ',
-		   TRIM(RPAD(MID(IFNULL(remarks__480, ' '), 81, 99), 17, ' ')))) AS obs,
+		   TRIM(RPAD(MID(IFNULL(remarks__480,' '),121,160),40,' ')))) AS obs,
        IFNULL(U.name, '')                                                        AS username
 FROM sqldados.eord           AS P
   LEFT JOIN  sqlpdv.pxa      AS PX
