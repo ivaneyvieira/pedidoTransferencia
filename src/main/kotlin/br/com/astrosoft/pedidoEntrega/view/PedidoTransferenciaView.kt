@@ -11,6 +11,7 @@ import br.com.astrosoft.framework.view.shiftSelect
 import br.com.astrosoft.framework.view.updateItens
 import br.com.astrosoft.pedidoEntrega.model.beans.PedidoTransferencia
 import br.com.astrosoft.pedidoEntrega.model.beans.UserSaci
+import br.com.astrosoft.pedidoEntrega.view.PedidoTransferenciaView.Companion.TITLE
 import br.com.astrosoft.pedidoEntrega.viewmodel.IPedidoTransferenciaView
 import br.com.astrosoft.pedidoEntrega.viewmodel.PedidoTransferenciaViewModel
 import com.github.mvysny.karibudsl.v10.VaadinDsl
@@ -41,17 +42,19 @@ import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 import java.time.LocalDate
 
-@Route(layout = PedidoEntregaLayout::class)
-@PageTitle("Pedidos")
+@Route(layout = PedidoTransferenciaLayout::class)
+@PageTitle(TITLE)
 @HtmlImport("frontend://styles/shared-styles.html")
-class PedidoEntregaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedidoTransferenciaView {
+class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedidoTransferenciaView {
   private lateinit var gridPedido: Grid<PedidoTransferencia>
   private lateinit var edtNumeroPedido: TextField
   private lateinit var edtDataPedido: DatePicker
-//
-private lateinit var gridTransferencia: Grid<PedidoTransferencia>
+  
+  //
+  private lateinit var gridTransferencia: Grid<PedidoTransferencia>
   private lateinit var edtNumeroTransferencia: TextField
   private lateinit var edtDataTransferencia: DatePicker
+  
   //
   override val viewModel: PedidoTransferenciaViewModel = PedidoTransferenciaViewModel(this)
   private val dataProviderPedido = ListDataProvider<PedidoTransferencia>(mutableListOf())
@@ -105,7 +108,7 @@ private lateinit var gridTransferencia: Grid<PedidoTransferencia>
         }
         edtDataPedido = datePicker("Data") {
           localePtBr()
-          setClearButtonVisible(true)
+          isClearButtonVisible = true
           addValueChangeListener {
             viewModel.updateGridPedido()
           }
@@ -134,11 +137,11 @@ private lateinit var gridTransferencia: Grid<PedidoTransferencia>
         addColumnTime(PedidoTransferencia::horaPedido) {
           this.setHeader("Hora")
         }
-
+        
         addColumnString(PedidoTransferencia::obs) {
           this.setHeader("Obs")
         }
-
+        
         this.shiftSelect()
       }
       
@@ -224,7 +227,6 @@ private lateinit var gridTransferencia: Grid<PedidoTransferencia>
     dataProviderTransferencia.updateItens(itens)
   }
   
-  
   override fun itensSelecionadoPedido(): List<PedidoTransferencia> {
     return gridPedido.selectedItems.toList()
   }
@@ -233,24 +235,18 @@ private lateinit var gridTransferencia: Grid<PedidoTransferencia>
     return gridTransferencia.selectedItems.toList()
   }
   
-
   override val numeroPedido: Int
     get() = edtNumeroPedido.value?.toIntOrNull() ?: 0
   override val dataPedido: LocalDate?
     get() = edtDataPedido.value
-  
   override val numeroTransferencia: Int
     get() = edtNumeroTransferencia.value?.toIntOrNull() ?: 0
   override val dataTransferencia: LocalDate?
     get() = edtDataTransferencia.value
-
   
   companion object {
     const val TAB_PEDIDO: String = "Pedido"
     const val TAB_NOTA_FISCAL: String = "Nota Fiscal"
+    const val TITLE = "Pedidos"
   }
-}
-
-class PedicateTrue<T>: SerializablePredicate<T> {
-  override fun test(p0: T?): Boolean = true
 }
