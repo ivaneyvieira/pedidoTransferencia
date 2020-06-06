@@ -22,5 +22,5 @@ FROM sqldados.nf            AS N
   LEFT JOIN  sqldados.users AS U
 	       ON U.no = N.padbits
 WHERE N.issuedate >= 20200601
-  /*AND N.paymno = 69*/
+  AND N.nfse = '5'
   AND (N.storeno = :storeno OR :storeno = 0)
