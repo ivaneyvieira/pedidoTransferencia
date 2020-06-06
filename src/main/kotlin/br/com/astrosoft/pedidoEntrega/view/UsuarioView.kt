@@ -2,6 +2,7 @@ package br.com.astrosoft.pedidoEntrega.view
 
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.pedidoEntrega.model.beans.UserSaci
+import br.com.astrosoft.pedidoEntrega.view.UserCrudFormFactory.Companion.TITLE
 import br.com.astrosoft.pedidoEntrega.viewmodel.IUsuarioView
 import br.com.astrosoft.pedidoEntrega.viewmodel.UsuarioViewModel
 import com.github.mvysny.karibudsl.v10.alignSelf
@@ -39,8 +40,8 @@ import org.vaadin.crudui.crud.impl.GridCrud
 import org.vaadin.crudui.form.AbstractCrudFormFactory
 import org.vaadin.gatanaso.MultiselectComboBox
 
-@Route(layout = PedidoEntregaLayout::class)
-@PageTitle("Usuário")
+@Route(layout = PedidoTransferenciaLayout::class)
+@PageTitle(TITLE)
 class UsuarioView: ViewLayout<UsuarioViewModel>(), IUsuarioView {
   override val viewModel = UsuarioViewModel(this)
   
@@ -54,7 +55,7 @@ class UsuarioView: ViewLayout<UsuarioViewModel>(), IUsuarioView {
     setSizeFull()
     this.add(crud)
     // logic configuration
-    setOperationd(crud)
+    setOperation(crud)
   }
   
   private fun gridCrud(): GridCrud<UserSaci> {
@@ -72,7 +73,7 @@ class UsuarioView: ViewLayout<UsuarioViewModel>(), IUsuarioView {
     return crud
   }
   
-  private fun setOperationd(crud: GridCrud<UserSaci>) {
+  private fun setOperation(crud: GridCrud<UserSaci>) {
     crud.setOperations(
       {viewModel.findAll()},
       {user: UserSaci -> viewModel.add(user)},
@@ -167,5 +168,9 @@ class UserCrudFormFactory(private val viewModel: UsuarioViewModel): AbstractCrud
       .withCaption("Erro do aplicativo")
       .withMessage(e?.message ?: "Erro desconhecido")
       .open()
+  }
+  
+  companion object {
+    const val TITLE = "Usuário"
   }
 }

@@ -29,7 +29,7 @@ import com.vaadin.flow.theme.lumo.Lumo
      shortName = AppConfig.shortName,
      iconPath = AppConfig.iconPath,
      enableInstallPrompt = false)
-class PedidoEntregaLayout: AppLayout() {
+class PedidoTransferenciaLayout: AppLayout() {
   init {
     isDrawerOpened = true
     navbar {
@@ -50,7 +50,7 @@ class PedidoEntregaLayout: AppLayout() {
         orientation = Tabs.Orientation.VERTICAL
         tab {
           this.icon(VaadinIcon.FORM)
-          routerLink(text = "Pedidos", viewType = PedidoEntregaView::class)
+          routerLink(text = "Pedidos", viewType = PedidoTransferenciaView::class)
         }
         tab {
           this.isEnabled = AppConfig.userSaci?.admin ?: false
