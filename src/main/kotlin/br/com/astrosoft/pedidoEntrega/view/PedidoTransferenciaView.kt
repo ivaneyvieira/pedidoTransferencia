@@ -135,7 +135,10 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
         addColumnTime(PedidoTransferencia::horaPedido) {
           this.setHeader("Hora")
         }
-        
+  
+        addColumnString(PedidoTransferencia::username) {
+          this.setHeader("Usuário")
+        }
         addColumnString(PedidoTransferencia::obs) {
           this.setHeader("Obs")
         }

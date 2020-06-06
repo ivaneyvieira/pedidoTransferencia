@@ -1,23 +1,34 @@
 package br.com.astrosoft.pedidoEntrega.viewmodel
 
+import br.com.astrosoft.AppConfig
 import br.com.astrosoft.framework.util.Ssh
 import br.com.astrosoft.framework.util.execCommand
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
+import br.com.astrosoft.framework.viewmodel.fail
 import br.com.astrosoft.pedidoEntrega.model.beans.PedidoTransferencia
 import java.time.LocalDate
 
 class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IPedidoTransferenciaView>(view) {
   fun imprimir() = exec {
+    val pedidos =
+      view.itensSelecionadoPedido()
+        .ifEmpty {fail("Não há pedido selecionado")}
+    val impressora = AppConfig.userSaci?.impressora ?: fail("O usuário não possui impresseora")
+    pedidos.forEach {pedido ->
+      printPedido(pedido.lojaOrigem, pedido.numPedido, impressora)
+    }
+    view.showInformation("Impressão finalizada")
+    updateGridPedido()
   }
   
   private fun printPedido(storeno: Int, ordno: Int, impressora: String): Boolean {
     return try {
       Ssh("172.20.47.1", "ivaney", "ivaney").shell {
-        execCommand("/u/saci/shells/printPedidos.sh $storeno $ordno $impressora")
+        execCommand("/u/saci/shells/printPedidosTransferencia.sh $storeno $ordno $impressora")
       }
       
-      println("/u/saci/shells/printPedidos.sh $storeno $ordno $impressora")
+      println("/u/saci/shells/printPedidosTransferencia.sh $storeno $ordno $impressora")
       true
     } catch(e: Throwable) {
       false
@@ -51,18 +62,20 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
         (pedido.dataPedido == data || data == null)
       }
   }
-
 }
 
 interface IPedidoTransferenciaView: IView {
   fun updateGridPedido(itens: List<PedidoTransferencia>)
   fun itensSelecionadoPedido(): List<PedidoTransferencia>
+  
   //
   fun updateGridTransferencia(itens: List<PedidoTransferencia>)
   fun itensSelecionadoTransferencia(): List<PedidoTransferencia>
+  
   //
   val numeroPedido: Int
   val dataPedido: LocalDate?
+  
   //
   val numeroTransferencia: Int
   val dataTransferencia: LocalDate?

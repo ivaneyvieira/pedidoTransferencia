@@ -17,7 +17,8 @@ data class PedidoTransferencia(
   val nfseNota: String,
   val dataNota: LocalDate?,
   val horaNota: Time,
-  val obs: String
+  val obs: String,
+  val username: String
                               ) {
   val nfTransferencia: String
     get() = numeroNota(nfnoNota, nfseNota)
@@ -33,11 +34,11 @@ data class PedidoTransferencia(
   companion object {
     val storeno
       get() = AppConfig.userSaci?.storeno ?: 0
-  
+    
     fun listaPedido(): List<PedidoTransferencia> {
       return saci.listaPedido(storeno)
     }
-  
+    
     fun listaTransferencia(): List<PedidoTransferencia> {
       return saci.listaTransferencia(storeno)
     }
