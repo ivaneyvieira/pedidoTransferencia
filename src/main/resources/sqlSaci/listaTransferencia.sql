@@ -23,4 +23,5 @@ FROM sqldados.nf            AS N
 	       ON U.no = N.padbits
 WHERE N.issuedate >= 20200601
   AND N.nfse = '5'
+  AND N.status <> 1
   AND (N.storeno = :storeno OR :storeno = 0)
