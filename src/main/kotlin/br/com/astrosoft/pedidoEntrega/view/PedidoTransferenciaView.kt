@@ -49,12 +49,10 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
   private lateinit var gridPedido: Grid<PedidoTransferencia>
   private lateinit var edtNumeroPedido: TextField
   private lateinit var edtDataPedido: DatePicker
-  
   //
   private lateinit var gridTransferencia: Grid<PedidoTransferencia>
   private lateinit var edtNumeroTransferencia: TextField
   private lateinit var edtDataTransferencia: DatePicker
-  
   //
   override val viewModel: PedidoTransferenciaViewModel = PedidoTransferenciaViewModel(this)
   private val dataProviderPedido = ListDataProvider<PedidoTransferencia>(mutableListOf())
@@ -125,7 +123,7 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
           this.setHeader("Lj Origem")
         }
         addColumnInt(PedidoTransferencia::lojaDestino) {
-          this.setHeader("Lj Origem")
+          this.setHeader("Lj Destino")
         }
         addColumnInt(PedidoTransferencia::numPedido) {
           this.setHeader("Pedido")
@@ -182,7 +180,7 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
           this.setHeader("Lj Origem")
         }
         addColumnInt(PedidoTransferencia::lojaDestino) {
-          this.setHeader("Lj Origem")
+          this.setHeader("Lj Destino")
         }
         addColumnString(PedidoTransferencia::nfTransferencia) {
           this.setHeader("Pedido")
