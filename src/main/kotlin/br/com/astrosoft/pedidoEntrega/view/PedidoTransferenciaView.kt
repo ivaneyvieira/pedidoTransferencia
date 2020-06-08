@@ -132,7 +132,6 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
         addThemeVariants(LUMO_COMPACT)
         setSelectionMode(SelectionMode.MULTI)
         
-        addColumnSeq("Num")
         addColumnInt(PedidoTransferencia::lojaOrigem) {
           this.setHeader("Lj Origem")
         }
@@ -195,7 +194,6 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
         addThemeVariants(LUMO_COMPACT)
         setSelectionMode(SelectionMode.MULTI)
         
-        addColumnSeq("Num")
         addColumnInt(PedidoTransferencia::lojaOrigem) {
           this.setHeader("Lj Origem")
         }
@@ -255,7 +253,6 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
         addThemeVariants(LUMO_COMPACT)
         setSelectionMode(SelectionMode.MULTI)
         
-        addColumnSeq("Num")
         addColumnInt(PedidoTransferencia::lojaOrigem) {
           this.setHeader("Lj Origem")
         }
@@ -284,6 +281,7 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
     }
   }
   
+  /*
   private fun @VaadinDsl Grid<PedidoTransferencia>.addColumnSeq(label: String) {
     addColumn {
       val lista = list(this)
@@ -294,6 +292,7 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
       setHeader(label)
     }
   }
+  */
   
   override fun updateGridPedido(itens: List<PedidoTransferencia>) {
     gridPedido.deselectAll()
