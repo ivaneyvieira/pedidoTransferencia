@@ -31,7 +31,7 @@ FROM sqldados.eord           AS P
   LEFT JOIN  sqldados.users  AS U
 	       ON U.no = P.userno
 WHERE P.paymno = 69
-  AND P.date >= 20200601
+  AND P.date >= 20200608
   AND P.status <> 5
   AND (P.storeno = :storeno OR :storeno = 0)
 GROUP BY P.ordno, P.storeno

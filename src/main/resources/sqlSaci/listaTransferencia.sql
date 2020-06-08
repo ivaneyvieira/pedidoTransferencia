@@ -21,7 +21,7 @@ FROM sqldados.nf            AS N
 	       ON N.storeno = N2.storeno AND N.pdvno = N2.pdvno AND N.xano = N2.xano
   LEFT JOIN  sqldados.users AS U
 	       ON U.no = N.padbits
-WHERE N.issuedate >= 20200601
+WHERE N.issuedate >= 20200608
   AND N.nfse = '5'
   AND N.status <> 1
   AND (N.storeno = :storeno OR :storeno = 0)

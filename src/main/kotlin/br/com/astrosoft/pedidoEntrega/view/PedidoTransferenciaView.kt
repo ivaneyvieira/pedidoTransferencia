@@ -240,8 +240,8 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
     get() = edtNumeroPedido.value?.toIntOrNull() ?: 0
   override val dataPedido: LocalDate?
     get() = edtDataPedido.value
-  override val numeroTransferencia: Int
-    get() = edtNumeroTransferencia.value?.toIntOrNull() ?: 0
+  override val numeroTransferencia: String
+    get() = edtNumeroTransferencia.value ?: ""
   override val dataTransferencia: LocalDate?
     get() = edtDataTransferencia.value
   
