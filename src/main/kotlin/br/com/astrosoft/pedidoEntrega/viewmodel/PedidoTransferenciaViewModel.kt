@@ -16,7 +16,8 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
         .ifEmpty {fail("Não há pedido selecionado")}
     val impressora = AppConfig.userSaci?.impressora ?: fail("O usuário não possui impresseora")
     pedidos.forEach {pedido ->
-      printPedido(pedido.lojaOrigem, pedido.numPedido, impressora)
+      if(printPedido(pedido.lojaOrigem, pedido.numPedido, impressora))
+        pedido.marcaImpresso()
     }
     view.showInformation("Impressão finalizada")
     updateGridPedido()
@@ -49,6 +50,20 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
       }
   }
   
+  fun updateGridPedidoMarcado() {
+    view.updateGridPedidoMarcado(listPedidoMarcado())
+  }
+  
+  private fun listPedidoMarcado(): List<PedidoTransferencia> {
+    val numPedido = view.numeroPedidoMarcado
+    val data = view.dataPedidoMarcado
+    return PedidoTransferencia.listaPedidoMarcado()
+      .filter {pedido ->
+        (pedido.numPedido == numPedido || numPedido == 0) &&
+        (pedido.dataPedido == data || data == null)
+      }
+  }
+  
   fun updateGridTransferencia() {
     view.updateGridTransferencia(listTransferencia())
   }
@@ -69,11 +84,20 @@ interface IPedidoTransferenciaView: IView {
   fun itensSelecionadoPedido(): List<PedidoTransferencia>
   
   //
+  fun updateGridPedidoMarcado(itens: List<PedidoTransferencia>)
+  fun itensSelecionadoPedidoMarcado(): List<PedidoTransferencia>
+  
+  //
   fun updateGridTransferencia(itens: List<PedidoTransferencia>)
   fun itensSelecionadoTransferencia(): List<PedidoTransferencia>
+  
   //
   val numeroPedido: Int
   val dataPedido: LocalDate?
+  //
+  val numeroPedidoMarcado: Int
+  val dataPedidoMarcado: LocalDate?
+  
   //
   val numeroTransferencia: String
   val dataTransferencia: LocalDate?
