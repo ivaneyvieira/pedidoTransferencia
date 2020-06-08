@@ -18,7 +18,8 @@ data class PedidoTransferencia(
   val dataNota: LocalDate?,
   val horaNota: Time,
   val obs: String,
-  val username: String
+  val username: String,
+  val marca: String
                               ) {
   val nfTransferencia: String
     get() = numeroNota(nfnoNota, nfseNota)
@@ -31,14 +32,26 @@ data class PedidoTransferencia(
     }
   }
   
+  fun marcaImpresso() {
+    saci.ativaMarca(lojaOrigem, numPedido, "S")
+  }
+  
+  fun desmarcaImpresso() {
+    saci.ativaMarca(lojaOrigem, numPedido, " ")
+  }
+  
   companion object {
     val storeno
       get() = AppConfig.userSaci?.storeno ?: 0
-    
+  
     fun listaPedido(): List<PedidoTransferencia> {
-      return saci.listaPedido(storeno)
+      return saci.listaPedido(storeno).filter{ it.marca == "S"}
     }
-    
+  
+    fun listaPedidoMarcado(): List<PedidoTransferencia> {
+      return saci.listaPedido(storeno).filter{ it.marca == "S"}
+    }
+  
     fun listaTransferencia(): List<PedidoTransferencia> {
       return saci.listaTransferencia(storeno)
     }

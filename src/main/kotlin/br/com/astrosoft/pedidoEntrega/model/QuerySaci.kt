@@ -33,6 +33,15 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
+  fun ativaMarca(storeno : Int, ordno : Int, marca : String) {
+    val sql = "/sqlSaci/ativaMarca.sql"
+    script(sql) {
+      addOptionalParameter("storeno", storeno)
+      addOptionalParameter("ordno", ordno)
+      addOptionalParameter("marca", marca)
+    }
+  }
+  
   fun listaPedido(storeno : Int): List<PedidoTransferencia> {
     val sql = "/sqlSaci/listaPedido.sql"
     return query(sql, PedidoTransferencia::class){
