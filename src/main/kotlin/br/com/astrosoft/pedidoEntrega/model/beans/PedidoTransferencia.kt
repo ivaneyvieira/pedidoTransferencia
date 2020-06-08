@@ -19,7 +19,11 @@ data class PedidoTransferencia(
   val horaNota: Time,
   val obs: String,
   val username: String,
-  val marca: String
+  val marca: String,
+  val nat: String,
+  val doc: String,
+  val ent: String,
+  val rec: String
                               ) {
   val nfTransferencia: String
     get() = numeroNota(nfnoNota, nfseNota)
@@ -43,15 +47,17 @@ data class PedidoTransferencia(
   companion object {
     val storeno
       get() = AppConfig.userSaci?.storeno ?: 0
-  
+    
     fun listaPedido(): List<PedidoTransferencia> {
-      return saci.listaPedido(storeno).filter{ it.marca == "S"}
+      return saci.listaPedido(storeno)
+        .filter {it.marca == "S"}
     }
-  
+    
     fun listaPedidoMarcado(): List<PedidoTransferencia> {
-      return saci.listaPedido(storeno).filter{ it.marca == "S"}
+      return saci.listaPedido(storeno)
+        .filter {it.marca == "S"}
     }
-  
+    
     fun listaTransferencia(): List<PedidoTransferencia> {
       return saci.listaTransferencia(storeno)
     }
