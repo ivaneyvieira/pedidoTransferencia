@@ -152,8 +152,17 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
         addColumnString(PedidoTransferencia::username) {
           this.setHeader("Usuário")
         }
-        addColumnString(PedidoTransferencia::obs) {
-          this.setHeader("Obs")
+        addColumnString(PedidoTransferencia::nat) {
+          this.setHeader("Nat")
+        }
+        addColumnString(PedidoTransferencia::doc) {
+          this.setHeader("Doc")
+        }
+        addColumnString(PedidoTransferencia::ent) {
+          this.setHeader("Ent")
+        }
+        addColumnString(PedidoTransferencia::rec) {
+          this.setHeader("Rec")
         }
         
         this.shiftSelect()
@@ -171,7 +180,7 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
       horizontalLayout {
         setWidthFull()
         button("Desmarcar") {
-          TODO()
+        
         }
         edtNumeroPedidoMarcado = textField("Numero Pedido") {
           this.valueChangeMode = TIMEOUT
@@ -214,8 +223,17 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
         addColumnString(PedidoTransferencia::username) {
           this.setHeader("Usuário")
         }
-        addColumnString(PedidoTransferencia::obs) {
-          this.setHeader("Obs")
+        addColumnString(PedidoTransferencia::nat) {
+          this.setHeader("Nat")
+        }
+        addColumnString(PedidoTransferencia::doc) {
+          this.setHeader("Doc")
+        }
+        addColumnString(PedidoTransferencia::ent) {
+          this.setHeader("Ent")
+        }
+        addColumnString(PedidoTransferencia::rec) {
+          this.setHeader("Rec")
         }
         
         this.shiftSelect()

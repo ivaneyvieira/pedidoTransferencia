@@ -11,6 +11,10 @@ SELECT N.storeno                                            AS lojaOrigem,
        if(N.issuedate = 0, NULL, cast(N.issuedate AS DATE)) AS dataNota,
        sec_to_time(N2.auxLong4)                             AS horaNota,
        N.remarks                                            AS obs,
+       ''                                                   AS nat,
+       ''                                                   AS doc,
+       ''                                                   AS ent,
+       ''                                                   AS rec,
        IFNULL(U.name, '')                                   AS username,
        'S'                                                  AS marca
 FROM sqldados.nf            AS N
