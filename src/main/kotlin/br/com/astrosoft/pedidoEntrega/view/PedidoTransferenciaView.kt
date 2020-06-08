@@ -50,6 +50,10 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
   private lateinit var edtNumeroPedido: TextField
   private lateinit var edtDataPedido: DatePicker
   //
+  private lateinit var gridPedidoMarcado: Grid<PedidoTransferencia>
+  private lateinit var edtNumeroPedidoMarcado: TextField
+  private lateinit var edtDataPedidoMarcado: DatePicker
+  //
   private lateinit var gridTransferencia: Grid<PedidoTransferencia>
   private lateinit var edtNumeroTransferencia: TextField
   private lateinit var edtDataTransferencia: DatePicker
@@ -57,6 +61,7 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
   override val viewModel: PedidoTransferenciaViewModel = PedidoTransferenciaViewModel(this)
   private val dataProviderPedido = ListDataProvider<PedidoTransferencia>(mutableListOf())
   private val dataProviderTransferencia = ListDataProvider<PedidoTransferencia>(mutableListOf())
+  private val dataProviderPedidoMarcado = ListDataProvider<PedidoTransferencia>(mutableListOf())
   
   override fun isAccept(user: UserSaci) = true
   
@@ -68,6 +73,15 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
       }.apply {
         val button = Button(TAB_PEDIDO) {
           viewModel.updateGridPedido()
+        }
+        button.addThemeVariants(ButtonVariant.LUMO_SMALL)
+        this.addComponentAsFirst(button)
+      }
+      tab {
+        painelPedidoMarcado()
+      }.apply {
+        val button = Button(TAB_PEDIDO_MARCADO) {
+          viewModel.updateGridPedidoMarcado()
         }
         button.addThemeVariants(ButtonVariant.LUMO_SMALL)
         this.addComponentAsFirst(button)
@@ -135,7 +149,70 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
         addColumnTime(PedidoTransferencia::horaPedido) {
           this.setHeader("Hora")
         }
+        
+        addColumnString(PedidoTransferencia::username) {
+          this.setHeader("Usuário")
+        }
+        addColumnString(PedidoTransferencia::obs) {
+          this.setHeader("Obs")
+        }
+        
+        this.shiftSelect()
+      }
+      
+      viewModel.updateGridPedido()
+    }
+  }
   
+  fun HasComponents.painelPedidoMarcado(): VerticalLayout {
+    return verticalLayout {
+      this.setSizeFull()
+      isMargin = false
+      isPadding = false
+      horizontalLayout {
+        setWidthFull()
+        button("Desmarcar") {
+          TODO()
+        }
+        edtNumeroPedidoMarcado = textField("Numero Pedido") {
+          this.valueChangeMode = TIMEOUT
+          this.isAutofocus = true
+          addValueChangeListener {
+            viewModel.updateGridPedidoMarcado()
+          }
+        }
+        edtDataPedidoMarcado = datePicker("Data") {
+          localePtBr()
+          isClearButtonVisible = true
+          addValueChangeListener {
+            viewModel.updateGridPedidoMarcado()
+          }
+        }
+      }
+      gridPedidoMarcado = this.grid(dataProvider = dataProviderPedidoMarcado) {
+        isExpand = true
+        isMultiSort = true
+        addThemeVariants(LUMO_COMPACT)
+        setSelectionMode(SelectionMode.MULTI)
+        
+        addColumnSeq("Num")
+        addColumnInt(PedidoTransferencia::lojaOrigem) {
+          this.setHeader("Lj Origem")
+        }
+        addColumnInt(PedidoTransferencia::lojaDestino) {
+          this.setHeader("Lj Destino")
+        }
+        addColumnInt(PedidoTransferencia::numPedido) {
+          this.setHeader("Pedido")
+        }
+        
+        addColumnLocalDate(PedidoTransferencia::dataPedido) {
+          this.setHeader("Data")
+        }
+        addColumnTime(PedidoTransferencia::horaPedido) {
+          this.setHeader("Hora")
+        }
+        
         addColumnString(PedidoTransferencia::username) {
           this.setHeader("Usuário")
         }
@@ -223,6 +300,11 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
     dataProviderPedido.updateItens(itens)
   }
   
+  override fun updateGridPedidoMarcado(itens: List<PedidoTransferencia>) {
+    gridPedidoMarcado.deselectAll()
+    dataProviderPedidoMarcado.updateItens(itens)
+  }
+  
   override fun updateGridTransferencia(itens: List<PedidoTransferencia>) {
     gridTransferencia.deselectAll()
     dataProviderTransferencia.updateItens(itens)
@@ -230,6 +312,10 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
   
   override fun itensSelecionadoPedido(): List<PedidoTransferencia> {
     return gridPedido.selectedItems.toList()
+  }
+  
+  override fun itensSelecionadoPedidoMarcado(): List<PedidoTransferencia> {
+    return gridPedidoMarcado.selectedItems.toList()
   }
   
   override fun itensSelecionadoTransferencia(): List<PedidoTransferencia> {
@@ -240,6 +326,10 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
     get() = edtNumeroPedido.value?.toIntOrNull() ?: 0
   override val dataPedido: LocalDate?
     get() = edtDataPedido.value
+  override val numeroPedidoMarcado: Int
+    get() = edtNumeroPedidoMarcado.value?.toIntOrNull() ?: 0
+  override val dataPedidoMarcado: LocalDate?
+    get() = edtDataPedidoMarcado.value
   override val numeroTransferencia: String
     get() = edtNumeroTransferencia.value ?: ""
   override val dataTransferencia: LocalDate?
@@ -247,6 +337,7 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
   
   companion object {
     const val TAB_PEDIDO: String = "Pedido"
+    const val TAB_PEDIDO_MARCADO: String = "Pedido Impresso"
     const val TAB_NOTA_FISCAL: String = "Nota Fiscal"
     const val TITLE = "Pedidos"
   }

@@ -11,7 +11,8 @@ SELECT N.storeno                                            AS lojaOrigem,
        if(N.issuedate = 0, NULL, cast(N.issuedate AS DATE)) AS dataNota,
        sec_to_time(N2.auxLong4)                             AS horaNota,
        N.remarks                                            AS obs,
-       IFNULL(U.name, '')                                   AS username
+       IFNULL(U.name, '')                                   AS username,
+       'S'                                                  AS marca
 FROM sqldados.nf            AS N
   INNER JOIN sqldados.custp AS C
 	       ON C.no = N.custno
