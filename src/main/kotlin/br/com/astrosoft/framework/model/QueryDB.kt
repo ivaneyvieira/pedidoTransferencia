@@ -47,21 +47,10 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
   
-  /*
-  private inline fun <reified T> buildQuery(file: String, proc: (Connection, Query) -> List<T>): List<T> {
-   
-    return this.sql2o.open()
-      .use {con ->
-        val query = con.createQuery(sql)
-        val time = System.currentTimeMillis()
-        println("SQL2O ==> $sql")
-        val result = proc(con, query)
-        val difTime = System.currentTimeMillis() - time
-        println("######################## TEMPO QUERY $difTime ms ########################")
-        result
-      }
+  fun dataBaseTest() {
+    query("select 1 from dual", Int::class)
   }
-  */
+  
   protected fun <T: Any> query(file: String, classes: KClass<T>, lambda: QueryHandle = {}): List<T> {
     val statements = toStratments(file)
     if(statements.isEmpty()) return emptyList()

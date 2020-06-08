@@ -54,12 +54,12 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
   }
   
   private fun listTransferencia(): List<PedidoTransferencia> {
-    val numPedido = view.numeroTransferencia
+    val numNota = view.numeroTransferencia
     val data = view.dataTransferencia
     return PedidoTransferencia.listaTransferencia()
-      .filter {pedido ->
-        (pedido.numPedido == numPedido || numPedido == 0) &&
-        (pedido.dataPedido == data || data == null)
+      .filter {nota ->
+        (nota.nfTransferencia.startsWith(numNota) || numNota == "") &&
+        (nota.dataPedido == data || data == null)
       }
   }
 }
@@ -71,12 +71,10 @@ interface IPedidoTransferenciaView: IView {
   //
   fun updateGridTransferencia(itens: List<PedidoTransferencia>)
   fun itensSelecionadoTransferencia(): List<PedidoTransferencia>
-  
   //
   val numeroPedido: Int
   val dataPedido: LocalDate?
-  
   //
-  val numeroTransferencia: Int
+  val numeroTransferencia: String
   val dataTransferencia: LocalDate?
 }
