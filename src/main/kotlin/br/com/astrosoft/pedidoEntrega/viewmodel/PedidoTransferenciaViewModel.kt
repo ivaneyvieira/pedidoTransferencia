@@ -77,6 +77,18 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
         (nota.dataPedido == data || data == null)
       }
   }
+  
+  fun desmarca() {
+    val pedidos =
+      view.itensSelecionadoPedidoMarcado()
+        .ifEmpty {fail("Não há pedido selecionado")}
+  
+    pedidos.forEach {pedido ->
+      pedido.desmarcaImpresso()
+    }
+  
+    updateGridPedidoMarcado()
+  }
 }
 
 interface IPedidoTransferenciaView: IView {
