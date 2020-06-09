@@ -1,10 +1,9 @@
-package br.com.astrosoft.pedidoEntrega.model.beans
+package br.com.astrosoft.pedidoTransferencia.model.beans
 
 import br.com.astrosoft.AppConfig
-import br.com.astrosoft.pedidoEntrega.model.saci
+import br.com.astrosoft.pedidoTransferencia.model.saci
 import java.sql.Time
 import java.time.LocalDate
-import java.time.LocalTime
 
 data class PedidoTransferencia(
   val lojaOrigem: Int,

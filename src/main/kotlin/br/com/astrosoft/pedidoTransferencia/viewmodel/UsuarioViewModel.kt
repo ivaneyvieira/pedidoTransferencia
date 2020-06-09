@@ -1,6 +1,6 @@
-package br.com.astrosoft.pedidoEntrega.viewmodel
+package br.com.astrosoft.pedidoTransferencia.viewmodel
 
-import br.com.astrosoft.pedidoEntrega.model.beans.UserSaci
+import br.com.astrosoft.pedidoTransferencia.model.beans.UserSaci
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 import br.com.astrosoft.framework.viewmodel.fail
