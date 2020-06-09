@@ -1,4 +1,4 @@
-package br.com.astrosoft.pedidoEntrega.view
+package br.com.astrosoft.pedidoTransferencia.view
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.router.BeforeEnterEvent

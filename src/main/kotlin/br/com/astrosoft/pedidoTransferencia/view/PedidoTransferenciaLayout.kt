@@ -1,4 +1,4 @@
-package br.com.astrosoft.pedidoEntrega.view
+package br.com.astrosoft.pedidoTransferencia.view
 
 import br.com.astrosoft.AppConfig
 import com.github.mvysny.karibudsl.v10.anchor

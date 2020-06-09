@@ -1,4 +1,4 @@
-package br.com.astrosoft.pedidoEntrega.viewmodel
+package br.com.astrosoft.pedidoTransferencia.viewmodel
 
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.framework.util.Ssh
@@ -6,7 +6,7 @@ import br.com.astrosoft.framework.util.execCommand
 import br.com.astrosoft.framework.viewmodel.IView
 import br.com.astrosoft.framework.viewmodel.ViewModel
 import br.com.astrosoft.framework.viewmodel.fail
-import br.com.astrosoft.pedidoEntrega.model.beans.PedidoTransferencia
+import br.com.astrosoft.pedidoTransferencia.model.beans.PedidoTransferencia
 import java.time.LocalDate
 
 class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IPedidoTransferenciaView>(view) {

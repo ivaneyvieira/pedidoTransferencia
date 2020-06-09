@@ -2,7 +2,6 @@ package br.com.astrosoft
 
 import br.com.astrosoft.framework.spring.SecurityUtils
 import br.com.astrosoft.framework.view.ViewUtil
-import br.com.astrosoft.pedidoEntrega.model.saci
 
 object AppConfig {
   val version = ViewUtil.versao

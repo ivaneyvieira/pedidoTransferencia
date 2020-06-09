@@ -1,6 +1,6 @@
 package br.com.astrosoft.framework.viewmodel
 
-import br.com.astrosoft.pedidoEntrega.model.QuerySaci
+import br.com.astrosoft.pedidoTransferencia.model.QuerySaci
 import br.com.astrosoft.framework.util.CupsUtils
 import br.com.astrosoft.framework.util.lpad
 import br.com.astrosoft.framework.util.rpad
