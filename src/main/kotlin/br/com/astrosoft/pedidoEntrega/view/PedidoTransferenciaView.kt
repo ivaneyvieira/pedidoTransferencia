@@ -33,6 +33,7 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.Grid.SelectionMode
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.icon.VaadinIcon.PRINT
+import com.vaadin.flow.component.icon.VaadinIcon.CLOSE
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.data.provider.ListDataProvider
@@ -180,7 +181,10 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
       horizontalLayout {
         setWidthFull()
         button("Desmarcar") {
-        
+          icon = CLOSE.create()
+          addClickListener {
+            viewModel.desmarca()
+          }
         }
         edtNumeroPedidoMarcado = textField("Numero Pedido") {
           this.valueChangeMode = TIMEOUT
@@ -359,3 +363,4 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
     const val TITLE = "Pedidos"
   }
 }
+
