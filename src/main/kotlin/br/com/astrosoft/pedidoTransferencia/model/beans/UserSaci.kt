@@ -1,6 +1,6 @@
-package br.com.astrosoft.pedidoEntrega.model.beans
+package br.com.astrosoft.pedidoTransferencia.model.beans
 
-import br.com.astrosoft.pedidoEntrega.model.saci
+import br.com.astrosoft.pedidoTransferencia.model.saci
 import kotlin.math.pow
 
 class UserSaci {

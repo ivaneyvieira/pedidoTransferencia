@@ -1,9 +1,9 @@
-package br.com.astrosoft.pedidoEntrega.model
+package br.com.astrosoft.pedidoTransferencia.model
 
-import br.com.astrosoft.pedidoEntrega.model.beans.UserSaci
+import br.com.astrosoft.pedidoTransferencia.model.beans.UserSaci
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.DB
-import br.com.astrosoft.pedidoEntrega.model.beans.PedidoTransferencia
+import br.com.astrosoft.pedidoTransferencia.model.beans.PedidoTransferencia
 
 class QuerySaci: QueryDB(driver, url, username, password) {
   fun findUser(login: String?): UserSaci? {
