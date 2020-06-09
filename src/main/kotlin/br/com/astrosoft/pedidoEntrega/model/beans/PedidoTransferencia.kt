@@ -50,7 +50,7 @@ data class PedidoTransferencia(
     
     fun listaPedido(): List<PedidoTransferencia> {
       return saci.listaPedido(storeno)
-        .filter {it.marca == "S"}
+        .filter {it.marca != "S"}
     }
     
     fun listaPedidoMarcado(): List<PedidoTransferencia> {
