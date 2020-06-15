@@ -1,5 +1,6 @@
 package br.com.astrosoft.pedidoTransferencia.view
 
+import br.com.astrosoft.AppConfig
 import br.com.astrosoft.framework.view.ViewLayout
 import br.com.astrosoft.framework.view.addColumnInt
 import br.com.astrosoft.framework.view.addColumnLocalDate
@@ -14,6 +15,7 @@ import br.com.astrosoft.pedidoTransferencia.view.PedidoTransferenciaView.Compani
 import br.com.astrosoft.pedidoTransferencia.viewmodel.IPedidoTransferenciaView
 import br.com.astrosoft.pedidoTransferencia.viewmodel.PedidoTransferenciaViewModel
 import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.comboBox
 import com.github.mvysny.karibudsl.v10.datePicker
 import com.github.mvysny.karibudsl.v10.grid
 import com.github.mvysny.karibudsl.v10.horizontalLayout
@@ -24,6 +26,7 @@ import com.github.mvysny.karibudsl.v10.verticalLayout
 import com.vaadin.flow.component.HasComponents
 import com.vaadin.flow.component.button.Button
 import com.vaadin.flow.component.button.ButtonVariant
+import com.vaadin.flow.component.combobox.ComboBox
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.grid.Grid
@@ -44,14 +47,19 @@ import java.time.LocalDate
 @HtmlImport("frontend://styles/shared-styles.html")
 class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedidoTransferenciaView {
   private lateinit var gridPedido: Grid<PedidoTransferencia>
+  private lateinit var cmbTipoPedido: ComboBox<String>
   private lateinit var edtNumeroPedido: TextField
   private lateinit var edtDataPedido: DatePicker
+  
   //
   private lateinit var gridPedidoMarcado: Grid<PedidoTransferencia>
+  private lateinit var cmbTipoPedidoMarcado: ComboBox<String>
   private lateinit var edtNumeroPedidoMarcado: TextField
   private lateinit var edtDataPedidoMarcado: DatePicker
+  
   //
   private lateinit var gridTransferencia: Grid<PedidoTransferencia>
+  private lateinit var cmbTipoTransferencia: ComboBox<String>
   private lateinit var edtNumeroTransferencia: TextField
   private lateinit var edtDataTransferencia: DatePicker
   //
@@ -106,6 +114,16 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
           icon = PRINT.create()
           addClickListener {
             viewModel.imprimir()
+          }
+        }
+        cmbTipoPedido = comboBox("Tipo") {
+          setItems("TODOS", "ORIGEM", "DESTINO")
+          isPreventInvalidInput = true
+          isAllowCustomValue = false
+          value = "TODOS"
+          isVisible = AppConfig.userSaci?.admin == false
+          addValueChangeListener {
+            viewModel.updateGridPedido()
           }
         }
         edtNumeroPedido = textField("Numero Pedido") {
@@ -182,6 +200,16 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
             viewModel.desmarca()
           }
         }
+        cmbTipoPedidoMarcado = comboBox("Tipo") {
+          setItems("TODOS", "ORIGEM", "DESTINO")
+          isPreventInvalidInput = true
+          isAllowCustomValue = false
+          value = "TODOS"
+          isVisible = AppConfig.userSaci?.admin == false
+          addValueChangeListener {
+            viewModel.updateGridPedidoMarcado()
+          }
+        }
         edtNumeroPedidoMarcado = textField("Numero Pedido") {
           this.valueChangeMode = TIMEOUT
           this.isAutofocus = true
@@ -250,6 +278,16 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
       isPadding = false
       horizontalLayout {
         setWidthFull()
+        cmbTipoTransferencia = comboBox("Tipo") {
+          setItems("TODOS", "ORIGEM", "DESTINO")
+          isPreventInvalidInput = true
+          isAllowCustomValue = false
+          isVisible = AppConfig.userSaci?.admin == false
+          value = "TODOS"
+          addValueChangeListener {
+            viewModel.updateGridTransferencia()
+          }
+        }
         edtNumeroTransferencia = textField("Numero Nota") {
           this.valueChangeMode = TIMEOUT
           this.isAutofocus = true
@@ -299,19 +337,6 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
     }
   }
   
-  /*
-  private fun @VaadinDsl Grid<PedidoTransferencia>.addColumnSeq(label: String) {
-    addColumn {
-      val lista = list(this)
-      lista.indexOf(it) + 1
-    }.apply {
-      this.textAlign = END
-      isAutoWidth = true
-      setHeader(label)
-    }
-  }
-  */
-  
   override fun updateGridPedido(itens: List<PedidoTransferencia>) {
     gridPedido.deselectAll()
     dataProviderPedido.updateItens(itens)
@@ -343,12 +368,18 @@ class PedidoTransferenciaView: ViewLayout<PedidoTransferenciaViewModel>(), IPedi
     get() = edtNumeroPedido.value?.toIntOrNull() ?: 0
   override val dataPedido: LocalDate?
     get() = edtDataPedido.value
+  override val tipoPedido: String
+    get() = cmbTipoPedido.value ?: "TODOS"
   override val numeroPedidoMarcado: Int
     get() = edtNumeroPedidoMarcado.value?.toIntOrNull() ?: 0
+  override val tipoPedidoMarcado: String
+    get() = cmbTipoPedidoMarcado.value ?: "TODOS"
   override val dataPedidoMarcado: LocalDate?
     get() = edtDataPedidoMarcado.value
   override val numeroTransferencia: String
     get() = edtNumeroTransferencia.value ?: ""
+  override val tipoTransferencia: String
+    get() = cmbTipoTransferencia.value ?: "TODOS"
   override val dataTransferencia: LocalDate?
     get() = edtDataTransferencia.value
   

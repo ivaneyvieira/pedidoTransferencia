@@ -16,7 +16,16 @@ SELECT P.storeno                                                     AS lojaOrig
        TRIM(RPAD(MID(IFNULL(remarks__480, ' '), 81, 99), 17, ' '))   AS ent,
        TRIM(RPAD(MID(IFNULL(remarks__480, ' '), 121, 160), 40, ' ')) AS rec,
        IFNULL(U.name, '')                                            AS username,
-       MID(P.rmkMontagem, 1, 1)                                      AS marca
+       MID(P.rmkMontagem, 1, 1)                                      AS marca,
+       CASE
+	 WHEN :storeno = 0
+	   THEN 'TODOS'
+	 WHEN P.storeno = :storeno
+	   THEN 'ORIGEM'
+	 WHEN S.no = :storeno
+	   THEN 'DESTINO'
+	 ELSE ''
+       END                                                           AS tipo
 FROM sqldados.eord           AS P
   LEFT JOIN  sqlpdv.pxa      AS PX
 	       ON (P.storeno = PX.storeno AND P.ordno = PX.eordno)
@@ -30,10 +39,11 @@ FROM sqldados.eord           AS P
 	       ON N.storeno = N2.storeno AND N.pdvno = N2.pdvno AND N.xano = N2.xano
   LEFT JOIN  sqldados.eordrk AS R
 	       ON (R.storeno = P.storeno AND R.ordno = P.ordno)
-  LEFT JOIN  sqldados.users  AS U
+  INNER JOIN sqldados.users  AS U
 	       ON U.no = P.userno
 WHERE P.paymno = 69
   AND P.date >= 20200608
   AND P.status <> 5
-  AND (P.storeno = :storeno OR :storeno = 0)
+  AND (P.storeno = :storeno OR S.no = :storeno OR :storeno = 0)
+  AND (U.bits2 & POW(2, 8)) <> 0
 GROUP BY P.ordno, P.storeno

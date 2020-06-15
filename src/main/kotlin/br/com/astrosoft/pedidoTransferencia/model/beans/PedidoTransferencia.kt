@@ -22,8 +22,8 @@ data class PedidoTransferencia(
   val nat: String,
   val doc: String,
   val ent: String,
-  val rec: String
-                              ) {
+  val rec: String,
+  val tipo: String) {
   val nfTransferencia: String
     get() = numeroNota(nfnoNota, nfseNota)
   

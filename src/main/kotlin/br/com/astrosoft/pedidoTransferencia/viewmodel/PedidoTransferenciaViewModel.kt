@@ -43,10 +43,10 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
   private fun listPedido(): List<PedidoTransferencia> {
     val numPedido = view.numeroPedido
     val data = view.dataPedido
+    val tipo = view.tipoPedido
     return PedidoTransferencia.listaPedido()
       .filter {pedido ->
-        (pedido.numPedido == numPedido || numPedido == 0) &&
-        (pedido.dataPedido == data || data == null)
+        (pedido.numPedido == numPedido || numPedido == 0) && (pedido.dataPedido == data || data == null) && (pedido.tipo == tipo || pedido.tipo == "TODOS")
       }
   }
   
@@ -57,10 +57,10 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
   private fun listPedidoMarcado(): List<PedidoTransferencia> {
     val numPedido = view.numeroPedidoMarcado
     val data = view.dataPedidoMarcado
+    val tipo = view.tipoPedidoMarcado
     return PedidoTransferencia.listaPedidoMarcado()
       .filter {pedido ->
-        (pedido.numPedido == numPedido || numPedido == 0) &&
-        (pedido.dataPedido == data || data == null)
+        (pedido.numPedido == numPedido || numPedido == 0) && (pedido.dataPedido == data || data == null) && (pedido.tipo == tipo || pedido.tipo == "TODOS")
       }
   }
   
@@ -71,10 +71,10 @@ class PedidoTransferenciaViewModel(view: IPedidoTransferenciaView): ViewModel<IP
   private fun listTransferencia(): List<PedidoTransferencia> {
     val numNota = view.numeroTransferencia
     val data = view.dataTransferencia
+    val tipo = view.tipoTransferencia
     return PedidoTransferencia.listaTransferencia()
       .filter {nota ->
-        (nota.nfTransferencia.startsWith(numNota) || numNota == "") &&
-        (nota.dataPedido == data || data == null)
+        (nota.nfTransferencia.startsWith(numNota) || numNota == "") && (nota.dataPedido == data || data == null) && (nota.tipo == tipo || nota.tipo == "TODOS")
       }
   }
   
@@ -106,11 +106,15 @@ interface IPedidoTransferenciaView: IView {
   //
   val numeroPedido: Int
   val dataPedido: LocalDate?
+  val tipoPedido: String
+  
   //
   val numeroPedidoMarcado: Int
   val dataPedidoMarcado: LocalDate?
+  val tipoPedidoMarcado: String
   
   //
   val numeroTransferencia: String
   val dataTransferencia: LocalDate?
+  val tipoTransferencia: String
 }

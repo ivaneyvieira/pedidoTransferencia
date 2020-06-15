@@ -16,7 +16,16 @@ SELECT N.storeno                                            AS lojaOrigem,
        ''                                                   AS ent,
        ''                                                   AS rec,
        IFNULL(U.name, '')                                   AS username,
-       'S'                                                  AS marca
+       'S'                                                  AS marca,
+       CASE
+	 WHEN :storeno = 0
+	   THEN 'TODOS'
+	 WHEN N.storeno = :storeno
+	   THEN 'ORIGEM'
+	 WHEN S.no = :storeno
+	   THEN 'DESTINO'
+	 ELSE ''
+       END                                                  AS tipo
 FROM sqldados.nf            AS N
   INNER JOIN sqldados.custp AS C
 	       ON C.no = N.custno
@@ -29,4 +38,4 @@ FROM sqldados.nf            AS N
 WHERE N.issuedate >= 20200608
   AND N.nfse = '5'
   AND N.status <> 1
-  AND (N.storeno = :storeno OR :storeno = 0)
+  AND (N.storeno = :storeno OR S.no = :storeno OR :storeno = 0)
